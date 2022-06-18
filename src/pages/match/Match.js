@@ -30,7 +30,7 @@ function Match() {
     const [picked, setPicked] = useState([])
 
     useMount(() => {
-        var webSocket = new WebSocket(`ws://localhost:3001/${id}/${user}`, 'echo-protocol')
+        var webSocket = new WebSocket(`wss://agile-brushlands-49713.herokuapp.com/${id}/${user}`, 'echo-protocol')
         setWs(webSocket);
         webSocket.onopen = () => {
             console.log('socket connection opened properly');

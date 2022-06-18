@@ -12,13 +12,13 @@ function Game() {
     const [isReady, cancel, reset] = useTimeoutFn(() => setMessage(""), 5000);
 
     const createMatch = async () => {
-        await fetch("http://localhost:3001/create", {method: "POST"})
+        await fetch("https://agile-brushlands-49713.herokuapp.com/create", {method: "POST"})
             .then((response) => response.json())
             .then((response) => setMatchId(response.id.toString()));
     }
 
     const joinMatch = async () => {
-        await fetch("http://localhost:3001/join", {
+        await fetch("https://agile-brushlands-49713.herokuapp.com/join", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
