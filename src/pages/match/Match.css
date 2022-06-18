@@ -1,0 +1,61 @@
+#Match {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+#Bingo {
+    width: 80%;
+}
+
+#HeaderWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#Header {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #aaa;
+}
+
+.gridItem > button {
+    width: 100%;
+}
+
+#MatchWinnerTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ExitMatchButton {
+    width: 100%;
+}
+
+.frog {
+    margin-right: 10px;
+}
+
+.feed {
+    position: fixed;
+    bottom: 10px;
+    text-align: center;
+    opacity: 0.4;
+    height: 100px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+}

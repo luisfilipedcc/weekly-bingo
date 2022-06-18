@@ -1,0 +1,12 @@
+#Game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.alertJoin {
+    top: 10px;
+    position: fixed;
+}
