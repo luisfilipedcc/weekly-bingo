@@ -30,6 +30,10 @@ function Match() {
     const [picked, setPicked] = useState([])
 
     useMount(() => {
+        wsConnect()
+    })
+
+    const wsConnect = () => {
         var webSocket = new WebSocket(`wss://agile-brushlands-49713.herokuapp.com/${id}/${user}`, 'echo-protocol')
         setWs(webSocket);
         webSocket.onopen = () => {
@@ -56,8 +60,16 @@ function Match() {
         webSocket.onclose = () => {
             // websocket is closed.
             console.log("Connection closed...");
+            setTimeout(function() {
+                wsConnect();
+            }, 1000);
         };
-    })
+
+        webSocket.onerror = function(err) {
+            console.error('Socket encountered error: ', err.message, 'Closing socket');
+            webSocket.close();
+        };
+    }
 
     const selectWord = (word) => {
         ws.send(JSON.stringify({selected: word}))
