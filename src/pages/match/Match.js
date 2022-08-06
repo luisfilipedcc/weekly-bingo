@@ -91,13 +91,11 @@ function Match() {
     }
 
     const selectWord = (word) => {
-        if(!localSelected.includes(word) || waitingResponse){
-            setLocalSelected((e) => [...e, word])
-            if(!selected.includes(word)){
-                setWaitingResponse(true)
-                ws.send(JSON.stringify({type: "play", data: {selected: word}}))
-            }
-        } 
+        setLocalSelected((e) => [...e, word])
+        if(!selected.includes(word)){
+            setWaitingResponse(true)
+            ws.send(JSON.stringify({type: "play", data: {selected: word}}))
+        }
     }
 
     useEffect(() => {
@@ -151,7 +149,7 @@ function Match() {
             <Grid id="Bingo" container spacing={3}>
                 {words.map((word) => 
                     <Grid key={"grid_" + word.value} item xs={4} md={3} className="gridItem">
-                        <Button key={"button_" + word.value} variant={word.selected ? "contained" :"outlined"} color="error" onClick={() => selectWord(word.value)}>{word.value}</Button>
+                        <Button key={"button_" + word.value} variant={word.selected ? "contained" :"outlined"} color="error" onClick={() => selectWord(word.value)} disabled={localSelected.includes(word) || waitingResponse}>{word.value}</Button>
                     </Grid>
                 )}
             </Grid>
