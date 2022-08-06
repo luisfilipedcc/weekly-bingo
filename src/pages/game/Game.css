@@ -10,3 +10,8 @@
     top: 10px;
     position: fixed;
 }
+
+.version {
+    color: gray;
+    font-size: small;
+}

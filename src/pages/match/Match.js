@@ -1,5 +1,5 @@
 import { AccountCircle, EmojiEvents, Numbers } from '@mui/icons-material';
-import { Button, Grid, List, ListItem, Modal, Typography } from '@mui/material';
+import { Button, Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -26,8 +26,11 @@ function Match() {
     const [ws, setWs] = useState(null);
     const [winners, setWinners] = useState([])
     const [words, setWords] = useState([])
+    const [localSelected, setLocalSelected] = useState([])
     const [selected, setSelected] = useState([])
-    const [picked, setPicked] = useState([])
+    const [messages, setMessages] = useState([])
+    const [players, setPlayers] = useState([])
+    const [chatMessage, setChatMessage] = useState("")
 
     useMount(() => {
         wsConnect()
@@ -43,17 +46,29 @@ function Match() {
         webSocket.onmessage = (evt) => {
             var data = evt.data;
             var jsonData = JSON.parse(data);
-            if(jsonData.words) {
-                setWords(jsonData.words);
-            }
-            if(jsonData.winners) {
-                setWinners(jsonData.winners);
-            }
-            if(jsonData.selected) {
-                setSelected(jsonData.selected);
-            }
-            if(jsonData.picked){
-                setPicked((p) => [jsonData, ...p])
+            switch(jsonData.communication) {
+                case "message":
+                    setMessages((m) => [jsonData.message, ...m])
+                    break;
+                case "play":
+                    setWinners(jsonData.winners);
+                    setSelected(jsonData.selected);
+                    break;
+                case "connection":
+                    setWords(jsonData.words)
+                    setWinners(jsonData.winners)
+                    if(jsonData.players){
+                        setPlayers(jsonData.players)
+                    }
+                    if(jsonData.messages){
+                        setMessages(jsonData.messages.reverse())
+                    }
+                    setSelected(jsonData.selected)
+                    break;
+                case "joined":
+                    setPlayers(jsonData.players)
+                default:
+                    // nothing to do here
             }
         };
        
@@ -72,7 +87,12 @@ function Match() {
     }
 
     const selectWord = (word) => {
-        ws.send(JSON.stringify({selected: word}))
+        if(!localSelected.includes(word)){
+            setLocalSelected((e) => [...e, word])
+            if(!selected.includes(word)){
+                ws.send(JSON.stringify({type: "play", data: {selected: word}}))
+            }
+        } 
     }
 
     useEffect(() => {
@@ -91,20 +111,38 @@ function Match() {
         navigate("/")
     }
 
+    const sendChatMessage = () => {
+        ws.send(JSON.stringify({type: "message", data: {message: chatMessage}}))
+        setChatMessage("")
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            sendChatMessage()
+        }
+    }
+
     return (
         <div id="Match">
-            <Box id="HeaderWrapper" sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", padding: "10px"}}>
-                <div id="Header">
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Numbers sx={{ color: '#aaa', mr: 1, my: 0.5 }} />
-                        <span>{id}</span>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <AccountCircle sx={{ color: '#aaa', mr: 1, my: 0.5 }} />
-                        <span>{user}</span>
-                    </Box>
-                </div>
-            </Box>
+            <div id="HeaderWrapper">
+                <Box id="HeaderInnerWrapper" sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", padding: "10px"}}>
+                    <div id="Header">
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Numbers sx={{ color: '#aaa', mr: 1, my: 0.5 }} />
+                            <span>{id}</span>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <AccountCircle sx={{ color: '#aaa', mr: 1, my: 0.5 }} />
+                            <span>{user}</span>
+                        </Box>
+                    </div>
+                </Box>
+                <Box id="HeaderRanking">
+                    {players.map((e, index) => {
+                        return (<div key={`player-${index}`} className="rank-wrapper"><div className="rank-user">{e.player}</div><div className="rank-words">{e.words.reduce((a, c) => a + selected.includes(c), 0)}</div></div>)
+                    })}
+                </Box>
+            </div>
             <Grid id="Bingo" container spacing={3}>
                 {words.map((word) => 
                     <Grid key={"grid_" + word.value} item xs={4} md={3} className="gridItem">
@@ -115,7 +153,20 @@ function Match() {
             <div>
             </div>
             <div className="feed">
-                {picked.map((p) => <div key={`${p.picked}_${p.user}`}><b>{p.picked}</b> was selected by <b>{p.user}</b></div>)}
+                <div className="messages">
+                    {messages.map((message, index) => {
+                        if(message.type === "message"){
+                            return (<span key={`message-${index}`}>{message.user}: {message.message}</span>)
+                        }
+                        if(message.type === "selection"){
+                            return (<span key={`message-${index}`} className="chat-message-selected-word">User {message.user} selected {message.selected}</span>)
+                        }
+                    })}
+                </div>
+                <div className="input-chat">
+                    <TextField id="chat-input" label="chat" variant="outlined" value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} onKeyDown={handleKeyDown}/>
+                    <Button id="chat-input-send" onClick={sendChatMessage} disabled={chatMessage === ""} variant={"contained"}>Send</Button>
+                </div>
             </div>
             <Modal open={winners.length !== 0}>
                 <Box sx={modalStyle}>
