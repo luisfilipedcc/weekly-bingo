@@ -60,7 +60,6 @@
 }
 
 .feed {
-    position: fixed;
     bottom: 10px;
     text-align: center;
     display: flex;

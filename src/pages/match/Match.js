@@ -31,6 +31,7 @@ function Match() {
     const [messages, setMessages] = useState([])
     const [players, setPlayers] = useState([])
     const [chatMessage, setChatMessage] = useState("")
+    const [waitingResponse, setWaitingResponse] = useState(false)
 
     useMount(() => {
         wsConnect()
@@ -53,6 +54,9 @@ function Match() {
                 case "play":
                     setWinners(jsonData.winners);
                     setSelected(jsonData.selected);
+                    if (jsonData.player === user){
+                        setWaitingResponse(false)
+                    }
                     break;
                 case "connection":
                     setWords(jsonData.words)
@@ -87,9 +91,10 @@ function Match() {
     }
 
     const selectWord = (word) => {
-        if(!localSelected.includes(word)){
+        if(!localSelected.includes(word) || waitingResponse){
             setLocalSelected((e) => [...e, word])
             if(!selected.includes(word)){
+                setWaitingResponse(true)
                 ws.send(JSON.stringify({type: "play", data: {selected: word}}))
             }
         } 
