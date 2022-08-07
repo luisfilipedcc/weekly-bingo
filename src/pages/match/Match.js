@@ -1,11 +1,11 @@
-import { AccountCircle, EmojiEvents, Numbers } from '@mui/icons-material';
+import { AccountCircle, EmojiEvents, Home, Numbers } from '@mui/icons-material';
 import { Button, Card, CardContent, Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMount } from 'react-use';
 import frog from "./frog.png";
-import {domain} from "../../utils/globals.js";
+import GLOBALS from "../../utils/globals.js";
 import "./Match.css"
 
 const modalStyle = {
@@ -37,7 +37,7 @@ function Match() {
     })
 
     const wsConnect = () => {
-        var webSocket = new WebSocket(`wss://${domain}/${id}/${user}`, 'echo-protocol')
+        var webSocket = new WebSocket(`wss://${GLOBALS.domain}/${id}/${user}`, 'echo-protocol')
         setWs(webSocket);
         webSocket.onopen = () => {
             console.log('socket connection opened properly');
@@ -148,6 +148,9 @@ function Match() {
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Numbers sx={{ color: '#aaa', mr: 1, my: 0.5 }} />
                             <span>{id}</span>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Home sx={{ color: '#aaa', mr: 1, my: 0.5, cursor: "pointer" }} onClick={handleClose} />
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <AccountCircle sx={{ color: '#aaa', mr: 1, my: 0.5 }} />

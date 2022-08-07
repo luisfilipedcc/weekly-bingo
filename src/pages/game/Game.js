@@ -2,7 +2,7 @@ import { Button, Stack, TextField, Divider, Alert, AlertTitle } from "@mui/mater
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTimeoutFn } from "react-use";
-import {domain} from "../../utils/globals.js";
+import GLOBALS from "../../utils/globals.js";
 import "./Game.css"
 
 function Game() {
@@ -17,7 +17,7 @@ function Game() {
     const [isReady, cancel, reset] = useTimeoutFn(() => setMessage(""), 5000);
     const usernameRegex = new RegExp("[^A-Za-z0-9]+");
     const matchRegex = new RegExp("[^0-9-]+")
-    var domain = `https://${domain}`
+    var domain = `https://${GLOBALS.domain}`
 
     const createMatch = async () => {
         setLoading(true)

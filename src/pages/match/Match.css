@@ -10,8 +10,16 @@
     width: 80%;
 }
 
+#Header {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #aaa;
+}
+
 @media screen and (max-width: 600px) {
-    #Bingo {
+    #Bingo, #Header {
         width: 95%;
     }
 }
@@ -35,14 +43,6 @@
     padding-right: 0;
     padding-top: 10px;
     padding-bottom: 10px;
-}
-
-#Header {
-    width: 80%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    color: #aaa;
 }
 
 .gridItem > button {
