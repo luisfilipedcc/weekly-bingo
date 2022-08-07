@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMount } from 'react-use';
 import frog from "./frog.png";
+import {domain} from "../../utils/globals.js";
 import "./Match.css"
 
 const modalStyle = {
@@ -36,7 +37,7 @@ function Match() {
     })
 
     const wsConnect = () => {
-        var webSocket = new WebSocket(`wss://agile-brushlands-49713.herokuapp.com/${id}/${user}`, 'echo-protocol')
+        var webSocket = new WebSocket(`wss://${domain}/${id}/${user}`, 'echo-protocol')
         setWs(webSocket);
         webSocket.onopen = () => {
             console.log('socket connection opened properly');
@@ -184,7 +185,7 @@ function Match() {
                         })}
                     </CardContent>
                     <CardContent className="input-chat">
-                        <TextField id="chat-input" label="chat" variant="outlined" value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} onKeyDown={handleKeyDown}  size="small"/>
+                        <TextField id="chat-input" label="chat" variant="outlined" value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} onKeyDown={handleKeyDown} size="small"/>
                         <Button id="chat-input-send" onClick={sendChatMessage} disabled={chatMessage === ""} variant={"contained"}>Send</Button>
                     </CardContent>
                 </Card>

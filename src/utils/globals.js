@@ -1,0 +1,1 @@
+export const domain = "agile-brushlands-49713.herokuapp.com"
