@@ -176,13 +176,13 @@ function Match() {
                     <CardContent className="messages">
                         {messages.map((message, index) => {
                             if(message.type === "message"){
-                                return (<span key={`message-${index}`}>{message.user}: {message.message}</span>)
+                                return (<span key={`message-${index}`} className="chat-message"><span className="chat-message-user">{message.user}:</span><span>{message.message}</span></span>)
                             }
                             if(message.type === "selection"){
-                                return (<span key={`message-${index}`} className="chat-message-selected-word">User {message.user} selected {message.selected}</span>)
+                                return (<span key={`message-${index}`} className="chat-message-selected-word"><span className="chat-message-user">{message.user}:</span><span><i>selected "{message.selected}"</i></span></span>)
                             }
                             if(message.type === "prize-line"){
-                                return (<span key={`message-${index}`} className="chat-message-prize-line">User {message.user} won a line.</span>)
+                                return (<span key={`message-${index}`} className="chat-message-prize-line"><span className="chat-message-user">{message.user}:</span><span><i>line pattern</i></span></span>)
                             }
                             return null
                         })}

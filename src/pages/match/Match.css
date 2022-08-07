@@ -21,6 +21,7 @@
 @media screen and (max-width: 600px) {
     #Bingo, #Header {
         width: 95%;
+        justify-content: space-evenly;
     }
 }
 
@@ -45,10 +46,32 @@
     padding-bottom: 10px;
 }
 
+.gridItem {
+    align-items: stretch;
+    display: flex;
+}
+
 .gridItem > button {
     width: 100%;
     font-size: 1vw;
     word-break: break-word;
+    padding: 5px;
+}
+
+@media screen and (max-width: 1000px) {
+    .gridItem > button {
+        width: 100%;
+        font-size: 1.5vw;
+        word-break: break-word;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .gridItem > button {
+        width: 100%;
+        font-size: 2vw;
+        word-break: break-word;
+    }
 }
 
 #MatchWinnerTitle {
@@ -88,7 +111,9 @@
     overflow-y: scroll;
     display: flex;
     flex-direction: column-reverse;
-    padding: 10px !important;
+    padding: 10px 10px 0 10px !important;
+    margin-top: 10px;
+    flex-grow: 1;
 }
 
 .input-chat {
@@ -105,17 +130,29 @@
     min-width: 100px;
 }
 
+.chat-message {
+    text-align: start;
+}
+
+.chat-message-user {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
 .chat-message-selected-word {
+    text-align: start;
     color: #d32f2f;
 }
 
 .chat-message-prize-line {
+    text-align: start;
     color: #188739;
 }
 
 .ranking-cards {
     background-color: #222 !important;
     color: #aaa !important;
+    margin-right: 5px;
 }
 
 .ranking-info {
