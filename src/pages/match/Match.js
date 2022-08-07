@@ -166,7 +166,7 @@ function Match() {
             </div>
             <Grid id="Bingo" container spacing={0.5}>
                 {words.map((word) => 
-                    <Grid key={"grid_" + word.value} item xs={4} md={3} className="gridItem">
+                    <Grid key={"grid_" + word.value} item xs={3} md={3} className="gridItem">
                         <Button key={"button_" + word.value} variant={word.selected ? "contained" :"outlined"} color="error" onClick={() => selectWord(word.value)} disabled={localSelected.includes(word) || waitingResponse}>{word.value}</Button>
                     </Grid>
                 )}
