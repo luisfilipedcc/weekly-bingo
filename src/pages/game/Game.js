@@ -26,6 +26,11 @@ function Game() {
             .then((response) => {
                 setLoading(false)
                 setMatchId(response.id.toString())
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false)
+                return
             });
     }
 
@@ -51,6 +56,11 @@ function Game() {
                     setMessage(response.message)
                 }
                 setLoading(false)
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false)
+                return
             })
     }
 
