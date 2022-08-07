@@ -11,6 +11,7 @@ function Game() {
     const [matchIdError, setMatchIdError] = useState(false)
     const [message, setMessage] = useState("")
     const navigate = useNavigate();   
+    // eslint-disable-next-line no-unused-vars
     const [isReady, cancel, reset] = useTimeoutFn(() => setMessage(""), 5000);
     const usernameRegex = new RegExp("[^A-Za-z0-9]+");
     const matchRegex = new RegExp("[^0-9-]+")
@@ -49,6 +50,7 @@ function Game() {
         if(message !== ""){
             reset()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [message])
 
     return (
@@ -60,11 +62,11 @@ function Game() {
         <Stack spacing={2} direction="column">
             <Button variant="contained" color="secondary" onClick={() => createMatch()}>Create New</Button>
             <Divider orientation="horizontal" flexItem />
-            <TextField error={usernameError} id="outlined-basic" label="Username" variant="outlined" value={username} onChange={(e) => {
+            <TextField error={usernameError} id="outlined-basic" label="Username" variant="outlined" value={username} size="small" onChange={(e) => {
                 setUsername(e.target.value)
                 setUsernameError(e.target.value.match(usernameRegex) !== null)
             }} helperText={username.match(usernameRegex) ? "Use only letters or numbers.": ""} />
-            <TextField error={matchIdError} id="outlined-basic" label="Match ID" variant="outlined" value={matchId} onChange={(e) => {
+            <TextField error={matchIdError} id="outlined-basic" label="Match ID" variant="outlined" value={matchId} size="small" onChange={(e) => {
                 setMatchId(e.target.value)
                 setMatchIdError(e.target.value.match(matchRegex) !== null)
             }} helperText={matchId.match(matchRegex) ? "Use only numbers.": ""} />
