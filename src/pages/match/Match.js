@@ -1,5 +1,5 @@
 import { AccountCircle, EmojiEvents, Numbers } from '@mui/icons-material';
-import { Button, Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
+import { Button, Card, CardContent, Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,9 +12,7 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
     bgcolor: '#ddd',
-    border: '2px solid #000',
     borderRadius: '10px',
     boxShadow: 24,
     p: 4,
@@ -71,6 +69,7 @@ function Match() {
                     break;
                 case "joined":
                     setPlayers(jsonData.players)
+                    break;
                 default:
                     // nothing to do here
             }
@@ -108,7 +107,22 @@ function Match() {
             })
             setWords(newWords);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selected])
+
+    useEffect(() => {
+        if (winners.filter(w => w.patterns.bingo).length > 0){
+            return
+        }
+        winners.forEach((w) => {
+            if(w.patterns.line) {
+                setMessages((m) => [{
+                    type: "prize-line",
+                    user: w.player
+                }, ...m])
+            }
+        })
+    }, [winners])
 
     const handleClose = () => {
         navigate("/")
@@ -142,42 +156,46 @@ function Match() {
                 </Box>
                 <Box id="HeaderRanking">
                     {players.map((e, index) => {
-                        return (<div key={`player-${index}`} className="rank-wrapper"><div className="rank-user">{e.player}</div><div className="rank-words">{e.words.reduce((a, c) => a + selected.includes(c), 0)}</div></div>)
+                        return (<Card key={`player-${index}`} className="ranking-cards"><CardContent className="ranking-info"><span>{e.player}</span><span className="ranking-info-words">{e.words.reduce((a, c) => a + selected.includes(c), 0)}</span></CardContent></Card>)
                     })}
                 </Box>
             </div>
-            <Grid id="Bingo" container spacing={3}>
+            <Grid id="Bingo" container spacing={0.5}>
                 {words.map((word) => 
                     <Grid key={"grid_" + word.value} item xs={4} md={3} className="gridItem">
                         <Button key={"button_" + word.value} variant={word.selected ? "contained" :"outlined"} color="error" onClick={() => selectWord(word.value)} disabled={localSelected.includes(word) || waitingResponse}>{word.value}</Button>
                     </Grid>
                 )}
             </Grid>
-            <div>
+            <div className="feed-wrapper">
+                <Card className="feed">
+                    <CardContent className="messages">
+                        {messages.map((message, index) => {
+                            if(message.type === "message"){
+                                return (<span key={`message-${index}`}>{message.user}: {message.message}</span>)
+                            }
+                            if(message.type === "selection"){
+                                return (<span key={`message-${index}`} className="chat-message-selected-word">User {message.user} selected {message.selected}</span>)
+                            }
+                            if(message.type === "prize-line"){
+                                return (<span key={`message-${index}`} className="chat-message-prize-line">User {message.user} won a line.</span>)
+                            }
+                            return null
+                        })}
+                    </CardContent>
+                    <CardContent className="input-chat">
+                        <TextField id="chat-input" label="chat" variant="outlined" value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} onKeyDown={handleKeyDown}  size="small"/>
+                        <Button id="chat-input-send" onClick={sendChatMessage} disabled={chatMessage === ""} variant={"contained"}>Send</Button>
+                    </CardContent>
+                </Card>
             </div>
-            <div className="feed">
-                <div className="messages">
-                    {messages.map((message, index) => {
-                        if(message.type === "message"){
-                            return (<span key={`message-${index}`}>{message.user}: {message.message}</span>)
-                        }
-                        if(message.type === "selection"){
-                            return (<span key={`message-${index}`} className="chat-message-selected-word">User {message.user} selected {message.selected}</span>)
-                        }
-                    })}
-                </div>
-                <div className="input-chat">
-                    <TextField id="chat-input" label="chat" variant="outlined" value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} onKeyDown={handleKeyDown}/>
-                    <Button id="chat-input-send" onClick={sendChatMessage} disabled={chatMessage === ""} variant={"contained"}>Send</Button>
-                </div>
-            </div>
-            <Modal open={winners.length !== 0}>
+            <Modal open={winners.filter((w) => w.patterns.bingo).length !== 0}>
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                     <div id="MatchWinnerTitle"><EmojiEvents sx={{ mr: 1, my: 0.5 }} /> We have a winner</div>
                     </Typography>
                     <List id="modal-modal-description" sx={{ mt: 2 }}>
-                        {winners.map((winner) => <ListItem key={"winner_" + winner}><img className="frog" src={frog}></img>{winner}</ListItem>)}
+                        {winners.filter((winner) => winner.patterns.bingo).map((winner, index) => <ListItem key={`winner-${index}`}><img className="frog" src={frog} alt="frog"></img>{winner.player}</ListItem>)}
                     </List>
                     <br />
                     <Button id="ExitMatchButton" onClick={handleClose} variant={"contained"}>Exit Match</Button>
