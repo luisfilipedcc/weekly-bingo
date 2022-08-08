@@ -6,7 +6,7 @@
     height: 100%;
 }
 
-#Bingo {
+.bingo-wrapper {
     width: 80%;
 }
 
@@ -19,7 +19,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    #Bingo, #Header {
+    .bingo-wrapper, #Header {
         width: 95%;
     }
 }
@@ -187,4 +187,8 @@
 
 .explanation-bingo {
     color: #a98e14;
+}
+
+#RefreshWords {
+    margin-bottom: 10px;
 }

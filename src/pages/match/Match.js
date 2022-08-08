@@ -24,6 +24,7 @@ function Match() {
     const navigate = useNavigate();
     let { id, user } = useParams();
     const [ws, setWs] = useState(null);
+    const [refreshed, setRefreshed] = useState(0)
     const [winners, setWinners] = useState([])
     const [words, setWords] = useState([])
     const [localSelected, setLocalSelected] = useState([])
@@ -61,6 +62,7 @@ function Match() {
                     setWinners((m) => [...m, jsonData.info]);
                     break;
                 case "connection":
+                    //setRefreshed(jsonData.refreshed)
                     setWords(jsonData.words)
                     setWinners(jsonData.winners)
                     if(jsonData.players){
@@ -74,6 +76,9 @@ function Match() {
                 case "joined":
                     setPlayers(jsonData.players)
                     break;
+                case "refreshed":
+                    setRefreshed(jsonData.refreshed)
+                    setWords(jsonData.words)
                 default:
                     // nothing to do here
             }
@@ -123,6 +128,11 @@ function Match() {
         setChatMessage("")
     }
 
+    const refreshWords = () => {
+        ws.send(JSON.stringify({type: "refresh"}))
+        setRefreshed(num => num + 1)
+    }
+
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             sendChatMessage()
@@ -162,13 +172,16 @@ function Match() {
                     })}
                 </Box>
             </div>
-            <Grid id="Bingo" container spacing={0.5}>
-                {words.map((word) => 
-                    <Grid key={"grid_" + word.value} item xs={3} md={3} className="gridItem">
-                        <Button key={"button_" + word.value} variant={word.selected ? "contained" :"outlined"} color="error" onClick={() => selectWord(word.value)} disabled={localSelected.includes(word) || waitingResponse}>{word.value}</Button>
-                    </Grid>
-                )}
-            </Grid>
+            <div className='bingo-wrapper'>
+                {words.length > 0 && <Button id="RefreshWords" onClick={refreshWords} variant={"contained"} disabled={refreshed > 0}>Refresh Words ({refreshed}/1)</Button>}
+                <Grid id="Bingo" container spacing={0.5}>
+                    {words.map((word) => 
+                        <Grid key={"grid_" + word.value} item xs={3} md={3} className="gridItem">
+                            <Button key={"button_" + word.value} variant={word.selected ? "contained" :"outlined"} color="error" onClick={() => selectWord(word.value)} disabled={localSelected.includes(word) || waitingResponse}>{word.value}</Button>
+                        </Grid>
+                    )}
+                </Grid>
+            </div>
             <div className="feed-wrapper">
                 <Card className="feed">
                     <CardContent className="messages">
