@@ -173,7 +173,7 @@ function Match() {
                 </Box>
             </div>
             <div className='bingo-wrapper'>
-                {words.length > 0 && <Button id="RefreshWords" onClick={refreshWords} variant={"contained"} disabled={refreshed > 0}>Refresh Words ({refreshed}/1)</Button>}
+                {/*{words.length > 0 && <Button id="RefreshWords" onClick={refreshWords} variant={"contained"} disabled={refreshed > 0}>Refresh Words ({refreshed}/1)</Button>}*/}
                 <Grid id="Bingo" container spacing={0.5}>
                     {words.map((word) => 
                         <Grid key={"grid_" + word.value} item xs={3} md={3} className="gridItem">
