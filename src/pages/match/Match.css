@@ -79,6 +79,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #a98e14;
+}
+
+#MatchLoserTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #929292;
 }
 
 #ExitMatchButton {
@@ -87,6 +95,7 @@
 
 .frog {
     margin-right: 10px;
+    height: 50px;
 }
 
 .feed-wrapper {

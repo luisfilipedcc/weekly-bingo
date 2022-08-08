@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMount } from 'react-use';
-import frog from "./frog.png";
+import happypepe from "./happypepe.png";
 import GLOBALS from "../../utils/globals.js";
 import "./Match.css"
 
@@ -13,9 +13,10 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    bgcolor: '#ddd',
+    bgcolor: '#222',
     borderRadius: '10px',
     boxShadow: 24,
+    color: '#aaa',
     p: 4,
   };
 
@@ -57,7 +58,7 @@ function Match() {
                     }
                     break;
                 case "prizes":
-                    setWinners((m) => [...jsonData.info, ...m]);
+                    setWinners((m) => [...m, jsonData.info]);
                     break;
                 case "connection":
                     setWords(jsonData.words)
@@ -193,10 +194,10 @@ function Match() {
             <Modal open={winners.filter((w) => w.patterns.bingo).length !== 0}>
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                    <div id="MatchWinnerTitle"><EmojiEvents sx={{ mr: 1, my: 0.5 }} /> We have a winner</div>
+                    <div id="MatchWinnerTitle"><img className="frog" src={happypepe} alt="frog"></img>Winners</div>
                     </Typography>
                     <List id="modal-modal-description" sx={{ mt: 2 }}>
-                        {winners.filter((winner) => winner.patterns.bingo).map((winner, index) => <ListItem key={`winner-${index}`}><img className="frog" src={frog} alt="frog"></img>{winner.player}</ListItem>)}
+                        {winners.filter((winner) => winner.patterns.bingo).map((winner, index) => <ListItem key={`winner-${index}`}>{winner.player}</ListItem>)}
                     </List>
                     <br />
                     <Button id="ExitMatchButton" onClick={handleClose} variant={"contained"}>Exit Match</Button>

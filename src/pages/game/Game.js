@@ -91,7 +91,7 @@ function Game() {
             <Divider orientation="horizontal" flexItem />
             <Button variant="contained" disabled={username === "" || matchId === "" || loading} onClick={() => joinMatch()}>Join</Button>
         </Stack>
-        <p className="version">Version E0.0.1I0.0.1FMQ0.0.01G15271.9331RC4.0b</p>
+        <p className="version">Version E0.0.1I0.0.1M0.0.01G15271.9331RC4.0b</p>
     </div>
   );
 }
