@@ -51,11 +51,13 @@ function Match() {
                     setMessages((m) => [jsonData.message, ...m])
                     break;
                 case "play":
-                    setWinners(jsonData.winners);
                     setSelected(jsonData.selected);
                     if (jsonData.player === user){
                         setWaitingResponse(false)
                     }
+                    break;
+                case "prizes":
+                    setWinners((m) => [...jsonData.info, ...m]);
                     break;
                 case "connection":
                     setWords(jsonData.words)
@@ -111,20 +113,6 @@ function Match() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selected])
 
-    useEffect(() => {
-        if (winners.filter(w => w.patterns.bingo).length > 0){
-            return
-        }
-        winners.forEach((w) => {
-            if(w.patterns.line) {
-                setMessages((m) => [{
-                    type: "prize-line",
-                    user: w.player
-                }, ...m])
-            }
-        })
-    }, [winners])
-
     const handleClose = () => {
         navigate("/")
     }
@@ -158,9 +146,18 @@ function Match() {
                         </Box>
                     </div>
                 </Box>
+                <Box className="explanation">
+                    <span className="explanation-words">words</span> / <span className="explanation-lines">lines</span> / <span className="explanation-bingo">bingo</span>
+                </Box>
                 <Box id="HeaderRanking">
                     {players.map((e, index) => {
-                        return (<Card key={`player-${index}`} className="ranking-cards"><CardContent className="ranking-info"><span>{e.player}</span><span className="ranking-info-words">{e.words.reduce((a, c) => a + selected.includes(c), 0)}</span></CardContent></Card>)
+                        return (<Card key={`player-${index}`} className="ranking-cards">
+                                <CardContent className="ranking-info"><span>{e.player}</span>
+                                    <div>
+                                        <span className="explanation-words">{e.words.reduce((a, c) => a + selected.includes(c), 0)}</span> / <span className="explanation-lines">{winners.filter((w) => w.player === e.player && w.patterns.line).length}</span> / <span className="explanation-bingo">{winners.filter((w) => w.player === e.player && w.patterns.bingo).length}</span>
+                                    </div>
+                                </CardContent>
+                            </Card>)
                     })}
                 </Box>
             </div>
@@ -181,8 +178,8 @@ function Match() {
                             if(message.type === "selection"){
                                 return (<span key={`message-${index}`} className="chat-message-selected-word"><span className="chat-message-user">{message.user}:</span><span><i>selected "{message.selected}"</i></span></span>)
                             }
-                            if(message.type === "prize-line"){
-                                return (<span key={`message-${index}`} className="chat-message-prize-line"><span className="chat-message-user">{message.user}:</span><span><i>line pattern</i></span></span>)
+                            if(message.type === "prize"){
+                                return (<span key={`message-${index}`} className="chat-message-prize-line"><span className="chat-message-user">{message.user}:</span><span><i>{message.prize} pattern</i></span></span>)
                             }
                             return null
                         })}

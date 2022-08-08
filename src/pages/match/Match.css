@@ -21,13 +21,14 @@
 @media screen and (max-width: 600px) {
     #Bingo, #Header {
         width: 95%;
-        justify-content: space-evenly;
     }
 }
 
 #HeaderRanking {
     display: flex;
-    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
 }
 
 #HeaderWrapper{
@@ -150,8 +151,8 @@
 }
 
 .ranking-cards {
-    background-color: #222 !important;
-    color: #aaa !important;
+    background-color: #d32f2f1c !important;
+    color: #222 !important;
     margin-right: 5px;
 }
 
@@ -163,6 +164,18 @@
     padding: 10px !important;
 }
 
-.ranking-info-words {
-    color: #d32f2f !important;
+.explanation {
+    margin: 10px
+}
+
+.explanation-words {
+    color: #d32f2f;
+}
+
+.explanation-lines {
+    color: #188739;
+}
+
+.explanation-bingo {
+    color: #a98e14;
 }
