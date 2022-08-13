@@ -1,4 +1,4 @@
-import { AccountCircle, EmojiEvents, Home, Numbers } from '@mui/icons-material';
+import { AccountCircle, EmojiEvents, Home, Numbers, Wifi, WifiOff } from '@mui/icons-material';
 import { Button, Card, CardContent, Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
@@ -33,6 +33,7 @@ function Match() {
     const [players, setPlayers] = useState([])
     const [chatMessage, setChatMessage] = useState("")
     const [waitingResponse, setWaitingResponse] = useState(false)
+    const [connected, setConnected] = useState(false)
 
     useMount(() => {
         wsConnect()
@@ -43,6 +44,7 @@ function Match() {
         setWs(webSocket);
         webSocket.onopen = () => {
             console.log('socket connection opened properly');
+            setConnected(true)
         };
        
         webSocket.onmessage = (evt) => {
@@ -87,12 +89,14 @@ function Match() {
         webSocket.onclose = () => {
             // websocket is closed.
             console.log("Connection closed...");
+            setConnected(false)
             setTimeout(function() {
                 wsConnect();
             }, 1000);
         };
 
         webSocket.onerror = function(err) {
+            setConnected(false)
             console.error('Socket encountered error: ', err.message, 'Closing socket');
             webSocket.close();
         };
@@ -152,6 +156,7 @@ function Match() {
                             <Home sx={{ color: '#aaa', mr: 1, my: 0.5, cursor: "pointer" }} onClick={handleClose} />
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            {connected ? <Wifi sx={{color: '#188739', mr: 1, my: 0.5}}></Wifi> : <WifiOff sx={{color: '#d32f2f', mr: 1, my: 0.5}}></WifiOff>}
                             <AccountCircle sx={{ color: '#aaa', mr: 1, my: 0.5 }} />
                             <span>{user}</span>
                         </Box>
