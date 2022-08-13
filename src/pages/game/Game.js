@@ -79,7 +79,7 @@ function Game() {
             {message}
         </Alert>}
         <Container className="settings-wrapper">
-            <div></div>
+            <div style={{"width": "24px"}}></div>
             <div>
                 <Stack spacing={2} direction="column">
                     <Button variant="contained" color="secondary" onClick={() => createMatch()} disabled={loading}>Create New</Button>
