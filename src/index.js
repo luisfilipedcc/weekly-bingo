@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Game from './pages/game/Game';
 import Match from './pages/match/Match';
+import Admin from './pages/admin/Admin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
     <Routes>
       <Route index element={<Game />} />
       <Route path="/match/:id/:user" element={<Match />} />
+      <Route path="/admin" element={<Admin />} />
     </Routes>
   </BrowserRouter>
 );

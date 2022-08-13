@@ -1,0 +1,67 @@
+#Admin {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+#Header {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: #aaa;
+}
+
+@media screen and (max-width: 600px) {
+    #Header {
+        width: 95%;
+    }
+}
+
+#HeaderWrapper{
+    width: 100%;
+}
+
+#HeaderInnerWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#UpdateWords {
+    margin-top: 20px;
+}
+
+.word-field, .word-add-field {
+    width: 100%;
+}
+
+.word-add-field {
+    height: 56px;
+}
+
+#SubmitNewWords {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#SubmitNewWordsWrapper {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#AccordionsWrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.button-check {
+    margin-left: 10px;
+}

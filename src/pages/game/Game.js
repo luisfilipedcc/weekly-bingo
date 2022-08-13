@@ -1,8 +1,9 @@
-import { Button, Stack, TextField, Divider, Alert, AlertTitle } from "@mui/material";
+import { Button, Stack, TextField, Divider, Alert, AlertTitle, Container } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTimeoutFn } from "react-use";
 import GLOBALS from "../../utils/globals.js";
+import Settings from '@mui/icons-material/Settings';
 import "./Game.css"
 
 function Game() {
@@ -77,6 +78,7 @@ function Game() {
             <AlertTitle>Error</AlertTitle>
             {message}
         </Alert>}
+        <Container className="settings-wrapper"><Settings onClick={() => navigate(`/admin`)}/></Container>
         <Stack spacing={2} direction="column">
             <Button variant="contained" color="secondary" onClick={() => createMatch()} disabled={loading}>Create New</Button>
             <Divider orientation="horizontal" flexItem />
