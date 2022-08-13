@@ -78,22 +78,27 @@ function Game() {
             <AlertTitle>Error</AlertTitle>
             {message}
         </Alert>}
-        <Container className="settings-wrapper"><Settings onClick={() => navigate(`/admin`)}/></Container>
-        <Stack spacing={2} direction="column">
-            <Button variant="contained" color="secondary" onClick={() => createMatch()} disabled={loading}>Create New</Button>
-            <Divider orientation="horizontal" flexItem />
-            <TextField error={usernameError} id="outlined-basic" label="Username" variant="outlined" value={username} size="small" onChange={(e) => {
-                setUsername(e.target.value)
-                setUsernameError(e.target.value.match(usernameRegex) !== null)
-            }} helperText={username.match(usernameRegex) ? "Use only letters or numbers.": ""} />
-            <TextField error={matchIdError} id="outlined-basic" label="Match ID" variant="outlined" value={matchId} size="small" onChange={(e) => {
-                setMatchId(e.target.value)
-                setMatchIdError(e.target.value.match(matchRegex) !== null)
-            }} helperText={matchId.match(matchRegex) ? "Use only numbers.": ""} />
-            <Divider orientation="horizontal" flexItem />
-            <Button variant="contained" disabled={username === "" || matchId === "" || loading} onClick={() => joinMatch()}>Join</Button>
-        </Stack>
-        <p className="version">Version E0.0.1I0.0.1M0.0.01G15271.9331RC4.0b</p>
+        <Container className="settings-wrapper">
+            <div></div>
+            <div>
+                <Stack spacing={2} direction="column">
+                    <Button variant="contained" color="secondary" onClick={() => createMatch()} disabled={loading}>Create New</Button>
+                    <Divider orientation="horizontal" flexItem />
+                    <TextField error={usernameError} id="outlined-basic" label="Username" variant="outlined" value={username} size="small" onChange={(e) => {
+                        setUsername(e.target.value)
+                        setUsernameError(e.target.value.match(usernameRegex) !== null)
+                    }} helperText={username.match(usernameRegex) ? "Use only letters or numbers.": ""} />
+                    <TextField error={matchIdError} id="outlined-basic" label="Match ID" variant="outlined" value={matchId} size="small" onChange={(e) => {
+                        setMatchId(e.target.value)
+                        setMatchIdError(e.target.value.match(matchRegex) !== null)
+                    }} helperText={matchId.match(matchRegex) ? "Use only numbers.": ""} />
+                    <Divider orientation="horizontal" flexItem />
+                    <Button variant="contained" disabled={username === "" || matchId === "" || loading} onClick={() => joinMatch()}>Join</Button>
+                </Stack>
+                <p className="version">Version E0.0.1I0.0.1M0.0.01G15271.9331RC5.0b</p>
+            </div>
+            <Settings onClick={() => navigate(`/admin`)}/>
+        </Container>
     </div>
   );
 }

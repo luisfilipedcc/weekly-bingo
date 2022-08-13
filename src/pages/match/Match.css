@@ -10,7 +10,7 @@
     width: 80%;
 }
 
-#Header {
+#Match #Header {
     width: 80%;
     display: flex;
     flex-direction: row;
@@ -19,7 +19,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    .bingo-wrapper, #Header {
+    .bingo-wrapper, #Match #Header {
         width: 95%;
     }
 }
