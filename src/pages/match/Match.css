@@ -159,6 +159,11 @@
     color: #188739;
 }
 
+.chat-message-refreshed {
+    text-align: start;
+    color: #183b87;
+}
+
 .ranking-cards {
     background-color: #d32f2f1c !important;
     color: #222 !important;
@@ -190,5 +195,17 @@
 }
 
 #RefreshWords {
+    margin-bottom: 10px;
+}
+
+.prepend-icon {
+    margin-right: 10px;
+}
+
+.refresh-words-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
     margin-bottom: 10px;
 }

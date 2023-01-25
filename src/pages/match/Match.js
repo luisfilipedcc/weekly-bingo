@@ -1,4 +1,4 @@
-import { AccountCircle, EmojiEvents, Home, Numbers, Wifi, WifiOff } from '@mui/icons-material';
+import { AccountCircle, EmojiEvents, Home, Numbers, Refresh, Wifi, WifiOff } from '@mui/icons-material';
 import { Button, Card, CardContent, Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
@@ -64,7 +64,7 @@ function Match() {
                     setWinners((m) => [...m, jsonData.info]);
                     break;
                 case "connection":
-                    //setRefreshed(jsonData.refreshed)
+                    setRefreshed(jsonData.refreshed)
                     setWords(jsonData.words)
                     setWinners(jsonData.winners)
                     if(jsonData.players){
@@ -178,7 +178,6 @@ function Match() {
                 </Box>
             </div>
             <div className='bingo-wrapper'>
-                {/*{words.length > 0 && <Button id="RefreshWords" onClick={refreshWords} variant={"contained"} disabled={refreshed > 0}>Refresh Words ({refreshed}/1)</Button>}*/}
                 <Grid id="Bingo" container spacing={0.5}>
                     {words.map((word) => 
                         <Grid key={"grid_" + word.value} item xs={3} md={3} className="gridItem">
@@ -186,6 +185,9 @@ function Match() {
                         </Grid>
                     )}
                 </Grid>
+                {words.length > 0 && <div className="refresh-words-wrapper">
+                    <Button id="RefreshWords" onClick={refreshWords} variant={"outlined"} disabled={refreshed < 0}><Refresh className="prepend-icon" /> Refresh Words ({refreshed}/1)</Button>
+                </div>}
             </div>
             <div className="feed-wrapper">
                 <Card className="feed">
@@ -199,6 +201,9 @@ function Match() {
                             }
                             if(message.type === "prize"){
                                 return (<span key={`message-${index}`} className="chat-message-prize-line"><span className="chat-message-user">{message.user}:</span><span><i>{message.prize} pattern</i></span></span>)
+                            }
+                            if(message.type === "refreshed"){
+                                return (<span key={`message-${index}`} className="chat-message-refreshed"><span className="chat-message-user">{message.user}:</span><span><i>refreshed his/her card</i></span></span>)
                             }
                             return null
                         })}
